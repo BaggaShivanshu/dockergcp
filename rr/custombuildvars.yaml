@@ -1,0 +1,21 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build',
+         '--build-arg',
+         'node_version=${_NODE_VERSION_1}',
+         '-t',
+         'gcr.io/$PROJECT_ID/build-substitutions-nodejs-${_NODE_VERSION_1}',
+         '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build',
+         '--build-arg',
+         'node_version=${_NODE_VERSION_2}',
+         '-t',
+         'gcr.io/$PROJECT_ID/build-substitutions-nodejs-${_NODE_VERSION_2}',
+         '.']
+substitutions:
+    _NODE_VERSION_1: v6.9.5 # default value
+images: [
+    'gcr.io/$PROJECT_ID/build-substitutions-nodejs-${_NODE_VERSION_1}',
+    'gcr.io/$PROJECT_ID/build-substitutions-nodejs-${_NODE_VERSION_2}'
+]

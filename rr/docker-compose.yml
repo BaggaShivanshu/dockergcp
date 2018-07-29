@@ -1,0 +1,20 @@
+version: "3.3"
+
+services:
+  web:
+    build: web
+    image: [USER]/rozaroute/web
+    ports:
+     - "80:80"
+
+  api:
+    build: api
+    image: [USER]/rozaroute/api
+    deploy:
+      replicas: 1
+      endpoint_mode: dnsrr
+      resources:
+        limits:
+          memory: 16M
+        reservations:
+          memory: 16M

@@ -1,0 +1,1 @@
+curl -X POST -T /PATH/TO/request.json -H "Authorization: Bearer $(gcloud auth print-access-token)" https://cloudbuild.googleapis.com/v1/projects/[PROJECT-ID]/builds

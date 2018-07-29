@@ -1,0 +1,37 @@
+# This file configures the bookshelf task worker. The worker is responsible
+# for processing book requests and updating book information.
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: bookshelf-worker
+  labels:
+    app: bookshelf
+# The bookshelf worker replica set ensures that at least 2 instances of the
+# bookshelf worker pod are running on the cluster.
+# For more info about Pods see:
+#   https://cloud.google.com/container-engine/docs/pods/
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: bookshelf
+        tier: worker
+    spec:
+      containers:
+      - name: bookshelf-app
+        # Replace [GCLOUD_PROJECT] with your project ID or use `make template`.
+        image: gcr.io/[GCLOUD_PROJECT]/bookshelf
+        # This setting makes nodes pull the docker image every time before
+        # starting the pod. This is useful when debugging, but should be turned
+        # off in production.
+        imagePullPolicy: Always
+        # The SCRIPT environment variable is used by `npm start` to control
+        # which script is executed. This tells npm start to use `worker.js`
+        # instead of the default `app.js`.
+        env:
+        - name: SCRIPT
+          value: worker.js
+        - name: PROJECT_ID
+          value: [GCLOUD_PROJECT]

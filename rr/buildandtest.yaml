@@ -1,0 +1,17 @@
+steps:
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['install']
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['run', 'test:unit']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/gcb-docker-compose:latest', '.']
+- name: 'docker/compose:1.15.0'
+  args: ['up', '-d']
+  env:
+  - 'PROJECT_ID=$PROJECT_ID'
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['run', 'test:integration']
+  env:
+  - 'HOST=counter' # name of the running container
+  - 'PORT=50051'
+images: ['gcr.io/$PROJECT_ID/gcb-docker-compose:latest']

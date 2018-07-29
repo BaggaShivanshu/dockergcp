@@ -1,0 +1,6 @@
+ {
+     "MAILGUN_API_KEY": "[API_KEY]",
+     "MAILGUN_DOMAIN": "email.com",
+     "MAILGUN_FROM": "me@email.com",
+     "MAILGUN_TO": "someone@email.com"
+ }
